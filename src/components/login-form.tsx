@@ -22,7 +22,11 @@ export function LoginForm({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { mutate, isPending, isError, error } = useSignIn();
+  const { mutate, isPending, isError, error } = useSignIn({
+    onSuccess: (data) => {
+      localStorage.setItem("task-manager-token", data.token);
+    },
+  });
 
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
