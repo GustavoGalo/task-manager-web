@@ -11,44 +11,20 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as IndexImport } from './routes/index'
-import { Route as SignupIndexImport } from './routes/signup/index'
-import { Route as PricingIndexImport } from './routes/pricing/index'
-import { Route as LoginIndexImport } from './routes/login/index'
-import { Route as FeaturesIndexImport } from './routes/features/index'
+import { Route as PathlessLayoutRouteImport } from './routes/_pathlessLayout/route'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
-import { Route as ContactIndexImport } from './routes/contact/index'
-import { Route as AboutIndexImport } from './routes/about/index'
+import { Route as PathlessLayoutIndexImport } from './routes/_pathlessLayout/index'
+import { Route as PathlessLayoutSignupIndexImport } from './routes/_pathlessLayout/signup/index'
+import { Route as PathlessLayoutPricingIndexImport } from './routes/_pathlessLayout/pricing/index'
+import { Route as PathlessLayoutLoginIndexImport } from './routes/_pathlessLayout/login/index'
+import { Route as PathlessLayoutFeaturesIndexImport } from './routes/_pathlessLayout/features/index'
+import { Route as PathlessLayoutContactIndexImport } from './routes/_pathlessLayout/contact/index'
+import { Route as PathlessLayoutAboutIndexImport } from './routes/_pathlessLayout/about/index'
 
 // Create/Update Routes
 
-const IndexRoute = IndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const SignupIndexRoute = SignupIndexImport.update({
-  id: '/signup/',
-  path: '/signup/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const PricingIndexRoute = PricingIndexImport.update({
-  id: '/pricing/',
-  path: '/pricing/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const LoginIndexRoute = LoginIndexImport.update({
-  id: '/login/',
-  path: '/login/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const FeaturesIndexRoute = FeaturesIndexImport.update({
-  id: '/features/',
-  path: '/features/',
+const PathlessLayoutRouteRoute = PathlessLayoutRouteImport.update({
+  id: '/_pathlessLayout',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -58,42 +34,70 @@ const DashboardIndexRoute = DashboardIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ContactIndexRoute = ContactIndexImport.update({
-  id: '/contact/',
-  path: '/contact/',
-  getParentRoute: () => rootRoute,
+const PathlessLayoutIndexRoute = PathlessLayoutIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PathlessLayoutRouteRoute,
 } as any)
 
-const AboutIndexRoute = AboutIndexImport.update({
+const PathlessLayoutSignupIndexRoute = PathlessLayoutSignupIndexImport.update({
+  id: '/signup/',
+  path: '/signup/',
+  getParentRoute: () => PathlessLayoutRouteRoute,
+} as any)
+
+const PathlessLayoutPricingIndexRoute = PathlessLayoutPricingIndexImport.update(
+  {
+    id: '/pricing/',
+    path: '/pricing/',
+    getParentRoute: () => PathlessLayoutRouteRoute,
+  } as any,
+)
+
+const PathlessLayoutLoginIndexRoute = PathlessLayoutLoginIndexImport.update({
+  id: '/login/',
+  path: '/login/',
+  getParentRoute: () => PathlessLayoutRouteRoute,
+} as any)
+
+const PathlessLayoutFeaturesIndexRoute =
+  PathlessLayoutFeaturesIndexImport.update({
+    id: '/features/',
+    path: '/features/',
+    getParentRoute: () => PathlessLayoutRouteRoute,
+  } as any)
+
+const PathlessLayoutContactIndexRoute = PathlessLayoutContactIndexImport.update(
+  {
+    id: '/contact/',
+    path: '/contact/',
+    getParentRoute: () => PathlessLayoutRouteRoute,
+  } as any,
+)
+
+const PathlessLayoutAboutIndexRoute = PathlessLayoutAboutIndexImport.update({
   id: '/about/',
   path: '/about/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => PathlessLayoutRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_pathlessLayout': {
+      id: '/_pathlessLayout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof PathlessLayoutRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/_pathlessLayout/': {
+      id: '/_pathlessLayout/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/about/': {
-      id: '/about/'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/contact/': {
-      id: '/contact/'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof PathlessLayoutIndexImport
+      parentRoute: typeof PathlessLayoutRouteImport
     }
     '/dashboard/': {
       id: '/dashboard/'
@@ -102,80 +106,120 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexImport
       parentRoute: typeof rootRoute
     }
-    '/features/': {
-      id: '/features/'
+    '/_pathlessLayout/about/': {
+      id: '/_pathlessLayout/about/'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof PathlessLayoutAboutIndexImport
+      parentRoute: typeof PathlessLayoutRouteImport
+    }
+    '/_pathlessLayout/contact/': {
+      id: '/_pathlessLayout/contact/'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof PathlessLayoutContactIndexImport
+      parentRoute: typeof PathlessLayoutRouteImport
+    }
+    '/_pathlessLayout/features/': {
+      id: '/_pathlessLayout/features/'
       path: '/features'
       fullPath: '/features'
-      preLoaderRoute: typeof FeaturesIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof PathlessLayoutFeaturesIndexImport
+      parentRoute: typeof PathlessLayoutRouteImport
     }
-    '/login/': {
-      id: '/login/'
+    '/_pathlessLayout/login/': {
+      id: '/_pathlessLayout/login/'
       path: '/login'
       fullPath: '/login'
-      preLoaderRoute: typeof LoginIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof PathlessLayoutLoginIndexImport
+      parentRoute: typeof PathlessLayoutRouteImport
     }
-    '/pricing/': {
-      id: '/pricing/'
+    '/_pathlessLayout/pricing/': {
+      id: '/_pathlessLayout/pricing/'
       path: '/pricing'
       fullPath: '/pricing'
-      preLoaderRoute: typeof PricingIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof PathlessLayoutPricingIndexImport
+      parentRoute: typeof PathlessLayoutRouteImport
     }
-    '/signup/': {
-      id: '/signup/'
+    '/_pathlessLayout/signup/': {
+      id: '/_pathlessLayout/signup/'
       path: '/signup'
       fullPath: '/signup'
-      preLoaderRoute: typeof SignupIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof PathlessLayoutSignupIndexImport
+      parentRoute: typeof PathlessLayoutRouteImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface PathlessLayoutRouteRouteChildren {
+  PathlessLayoutIndexRoute: typeof PathlessLayoutIndexRoute
+  PathlessLayoutAboutIndexRoute: typeof PathlessLayoutAboutIndexRoute
+  PathlessLayoutContactIndexRoute: typeof PathlessLayoutContactIndexRoute
+  PathlessLayoutFeaturesIndexRoute: typeof PathlessLayoutFeaturesIndexRoute
+  PathlessLayoutLoginIndexRoute: typeof PathlessLayoutLoginIndexRoute
+  PathlessLayoutPricingIndexRoute: typeof PathlessLayoutPricingIndexRoute
+  PathlessLayoutSignupIndexRoute: typeof PathlessLayoutSignupIndexRoute
+}
+
+const PathlessLayoutRouteRouteChildren: PathlessLayoutRouteRouteChildren = {
+  PathlessLayoutIndexRoute: PathlessLayoutIndexRoute,
+  PathlessLayoutAboutIndexRoute: PathlessLayoutAboutIndexRoute,
+  PathlessLayoutContactIndexRoute: PathlessLayoutContactIndexRoute,
+  PathlessLayoutFeaturesIndexRoute: PathlessLayoutFeaturesIndexRoute,
+  PathlessLayoutLoginIndexRoute: PathlessLayoutLoginIndexRoute,
+  PathlessLayoutPricingIndexRoute: PathlessLayoutPricingIndexRoute,
+  PathlessLayoutSignupIndexRoute: PathlessLayoutSignupIndexRoute,
+}
+
+const PathlessLayoutRouteRouteWithChildren =
+  PathlessLayoutRouteRoute._addFileChildren(PathlessLayoutRouteRouteChildren)
+
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/about': typeof AboutIndexRoute
-  '/contact': typeof ContactIndexRoute
+  '': typeof PathlessLayoutRouteRouteWithChildren
+  '/': typeof PathlessLayoutIndexRoute
   '/dashboard': typeof DashboardIndexRoute
-  '/features': typeof FeaturesIndexRoute
-  '/login': typeof LoginIndexRoute
-  '/pricing': typeof PricingIndexRoute
-  '/signup': typeof SignupIndexRoute
+  '/about': typeof PathlessLayoutAboutIndexRoute
+  '/contact': typeof PathlessLayoutContactIndexRoute
+  '/features': typeof PathlessLayoutFeaturesIndexRoute
+  '/login': typeof PathlessLayoutLoginIndexRoute
+  '/pricing': typeof PathlessLayoutPricingIndexRoute
+  '/signup': typeof PathlessLayoutSignupIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/about': typeof AboutIndexRoute
-  '/contact': typeof ContactIndexRoute
+  '/': typeof PathlessLayoutIndexRoute
   '/dashboard': typeof DashboardIndexRoute
-  '/features': typeof FeaturesIndexRoute
-  '/login': typeof LoginIndexRoute
-  '/pricing': typeof PricingIndexRoute
-  '/signup': typeof SignupIndexRoute
+  '/about': typeof PathlessLayoutAboutIndexRoute
+  '/contact': typeof PathlessLayoutContactIndexRoute
+  '/features': typeof PathlessLayoutFeaturesIndexRoute
+  '/login': typeof PathlessLayoutLoginIndexRoute
+  '/pricing': typeof PathlessLayoutPricingIndexRoute
+  '/signup': typeof PathlessLayoutSignupIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/about/': typeof AboutIndexRoute
-  '/contact/': typeof ContactIndexRoute
+  '/_pathlessLayout': typeof PathlessLayoutRouteRouteWithChildren
+  '/_pathlessLayout/': typeof PathlessLayoutIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
-  '/features/': typeof FeaturesIndexRoute
-  '/login/': typeof LoginIndexRoute
-  '/pricing/': typeof PricingIndexRoute
-  '/signup/': typeof SignupIndexRoute
+  '/_pathlessLayout/about/': typeof PathlessLayoutAboutIndexRoute
+  '/_pathlessLayout/contact/': typeof PathlessLayoutContactIndexRoute
+  '/_pathlessLayout/features/': typeof PathlessLayoutFeaturesIndexRoute
+  '/_pathlessLayout/login/': typeof PathlessLayoutLoginIndexRoute
+  '/_pathlessLayout/pricing/': typeof PathlessLayoutPricingIndexRoute
+  '/_pathlessLayout/signup/': typeof PathlessLayoutSignupIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | ''
     | '/'
+    | '/dashboard'
     | '/about'
     | '/contact'
-    | '/dashboard'
     | '/features'
     | '/login'
     | '/pricing'
@@ -183,46 +227,35 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/dashboard'
     | '/about'
     | '/contact'
-    | '/dashboard'
     | '/features'
     | '/login'
     | '/pricing'
     | '/signup'
   id:
     | '__root__'
-    | '/'
-    | '/about/'
-    | '/contact/'
+    | '/_pathlessLayout'
+    | '/_pathlessLayout/'
     | '/dashboard/'
-    | '/features/'
-    | '/login/'
-    | '/pricing/'
-    | '/signup/'
+    | '/_pathlessLayout/about/'
+    | '/_pathlessLayout/contact/'
+    | '/_pathlessLayout/features/'
+    | '/_pathlessLayout/login/'
+    | '/_pathlessLayout/pricing/'
+    | '/_pathlessLayout/signup/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AboutIndexRoute: typeof AboutIndexRoute
-  ContactIndexRoute: typeof ContactIndexRoute
+  PathlessLayoutRouteRoute: typeof PathlessLayoutRouteRouteWithChildren
   DashboardIndexRoute: typeof DashboardIndexRoute
-  FeaturesIndexRoute: typeof FeaturesIndexRoute
-  LoginIndexRoute: typeof LoginIndexRoute
-  PricingIndexRoute: typeof PricingIndexRoute
-  SignupIndexRoute: typeof SignupIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AboutIndexRoute: AboutIndexRoute,
-  ContactIndexRoute: ContactIndexRoute,
+  PathlessLayoutRouteRoute: PathlessLayoutRouteRouteWithChildren,
   DashboardIndexRoute: DashboardIndexRoute,
-  FeaturesIndexRoute: FeaturesIndexRoute,
-  LoginIndexRoute: LoginIndexRoute,
-  PricingIndexRoute: PricingIndexRoute,
-  SignupIndexRoute: SignupIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -235,39 +268,52 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
-        "/about/",
-        "/contact/",
-        "/dashboard/",
-        "/features/",
-        "/login/",
-        "/pricing/",
-        "/signup/"
+        "/_pathlessLayout",
+        "/dashboard/"
       ]
     },
-    "/": {
-      "filePath": "index.tsx"
+    "/_pathlessLayout": {
+      "filePath": "_pathlessLayout/route.tsx",
+      "children": [
+        "/_pathlessLayout/",
+        "/_pathlessLayout/about/",
+        "/_pathlessLayout/contact/",
+        "/_pathlessLayout/features/",
+        "/_pathlessLayout/login/",
+        "/_pathlessLayout/pricing/",
+        "/_pathlessLayout/signup/"
+      ]
     },
-    "/about/": {
-      "filePath": "about/index.tsx"
-    },
-    "/contact/": {
-      "filePath": "contact/index.tsx"
+    "/_pathlessLayout/": {
+      "filePath": "_pathlessLayout/index.tsx",
+      "parent": "/_pathlessLayout"
     },
     "/dashboard/": {
       "filePath": "dashboard/index.tsx"
     },
-    "/features/": {
-      "filePath": "features/index.tsx"
+    "/_pathlessLayout/about/": {
+      "filePath": "_pathlessLayout/about/index.tsx",
+      "parent": "/_pathlessLayout"
     },
-    "/login/": {
-      "filePath": "login/index.tsx"
+    "/_pathlessLayout/contact/": {
+      "filePath": "_pathlessLayout/contact/index.tsx",
+      "parent": "/_pathlessLayout"
     },
-    "/pricing/": {
-      "filePath": "pricing/index.tsx"
+    "/_pathlessLayout/features/": {
+      "filePath": "_pathlessLayout/features/index.tsx",
+      "parent": "/_pathlessLayout"
     },
-    "/signup/": {
-      "filePath": "signup/index.tsx"
+    "/_pathlessLayout/login/": {
+      "filePath": "_pathlessLayout/login/index.tsx",
+      "parent": "/_pathlessLayout"
+    },
+    "/_pathlessLayout/pricing/": {
+      "filePath": "_pathlessLayout/pricing/index.tsx",
+      "parent": "/_pathlessLayout"
+    },
+    "/_pathlessLayout/signup/": {
+      "filePath": "_pathlessLayout/signup/index.tsx",
+      "parent": "/_pathlessLayout"
     }
   }
 }

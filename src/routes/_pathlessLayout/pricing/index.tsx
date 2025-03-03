@@ -1,4 +1,4 @@
-import { CheckCircle2, ListTodo, MinusCircle } from "lucide-react";
+import { CheckCircle2, MinusCircle } from "lucide-react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/accordion";
 import { useState } from "react";
 
-export const Route = createFileRoute("/pricing/")({
+export const Route = createFileRoute("/_pathlessLayout/pricing/")({
   component: RouteComponent,
 });
 
@@ -34,18 +34,7 @@ function RouteComponent() {
   const [isAnnual, setIsAnnual] = useState(false);
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 font-semibold">
-            <ListTodo className="h-5 w-5" />
-            <span>TaskMaster</span>
-          </Link>
-          <Button asChild size="sm">
-            <Link to="/signup">Get Started</Link>
-          </Button>
-        </div>
-      </header>
+    <>
       <main className="flex-1">
         {/* Hero Section */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-background to-muted">
@@ -346,6 +335,6 @@ function RouteComponent() {
           </div>
         </div>
       </footer>
-    </div>
+    </>
   );
 }
