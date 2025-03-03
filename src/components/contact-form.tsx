@@ -66,6 +66,7 @@ export function ContactForm() {
 
       form.reset();
     } catch (error) {
+      console.error(error, values);
       toast.error("Failed to send message", {
         description: "Please try again later or contact support directly.",
       });
