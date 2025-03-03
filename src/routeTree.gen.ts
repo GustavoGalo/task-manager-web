@@ -17,6 +17,7 @@ import { Route as PricingIndexImport } from './routes/pricing/index'
 import { Route as LoginIndexImport } from './routes/login/index'
 import { Route as FeaturesIndexImport } from './routes/features/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
+import { Route as ContactIndexImport } from './routes/contact/index'
 
 // Create/Update Routes
 
@@ -56,6 +57,12 @@ const DashboardIndexRoute = DashboardIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const ContactIndexRoute = ContactIndexImport.update({
+  id: '/contact/',
+  path: '/contact/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -65,6 +72,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/contact/': {
+      id: '/contact/'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactIndexImport
       parentRoute: typeof rootRoute
     }
     '/dashboard/': {
@@ -109,6 +123,7 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contact': typeof ContactIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/features': typeof FeaturesIndexRoute
   '/login': typeof LoginIndexRoute
@@ -118,6 +133,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contact': typeof ContactIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/features': typeof FeaturesIndexRoute
   '/login': typeof LoginIndexRoute
@@ -128,6 +144,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/contact/': typeof ContactIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/features/': typeof FeaturesIndexRoute
   '/login/': typeof LoginIndexRoute
@@ -139,16 +156,25 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/contact'
     | '/dashboard'
     | '/features'
     | '/login'
     | '/pricing'
     | '/signup'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/features' | '/login' | '/pricing' | '/signup'
+  to:
+    | '/'
+    | '/contact'
+    | '/dashboard'
+    | '/features'
+    | '/login'
+    | '/pricing'
+    | '/signup'
   id:
     | '__root__'
     | '/'
+    | '/contact/'
     | '/dashboard/'
     | '/features/'
     | '/login/'
@@ -159,6 +185,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContactIndexRoute: typeof ContactIndexRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   FeaturesIndexRoute: typeof FeaturesIndexRoute
   LoginIndexRoute: typeof LoginIndexRoute
@@ -168,6 +195,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContactIndexRoute: ContactIndexRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   FeaturesIndexRoute: FeaturesIndexRoute,
   LoginIndexRoute: LoginIndexRoute,
@@ -186,6 +214,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/contact/",
         "/dashboard/",
         "/features/",
         "/login/",
@@ -195,6 +224,9 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/contact/": {
+      "filePath": "contact/index.tsx"
     },
     "/dashboard/": {
       "filePath": "dashboard/index.tsx"
