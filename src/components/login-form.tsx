@@ -35,12 +35,9 @@ export function LoginForm() {
       });
       router.navigate({ to: "/dashboard" });
     },
-    onError: () => {
-      form.setError("email", {
-        message: "Invalid email or password.",
-      });
-      form.setError("password", {
-        message: "Invalid email or password.",
+    onError: (error) => {
+      form.setError("root.serverError", {
+        message: error.response?.data.message,
       });
       toast.error("Login failed", {
         description: "Invalid email or password. Please try again.",
@@ -83,6 +80,9 @@ export function LoginForm() {
             </FormItem>
           )}
         />
+        <p className="text-[0.8rem] font-medium text-destructive">
+          {form.formState.errors.root?.serverError.message}
+        </p>
         <Button type="submit" className="w-full" disabled={isPending}>
           {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {isPending ? "Please wait..." : "Login"}
