@@ -80,7 +80,7 @@ function RouteComponent() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground mb-4">
-                    Talk to our sales team about TaskMaster for Enterprise.
+                    Talk to our sales team about TaskManager for Enterprise.
                   </p>
                   <Button variant="secondary" className="w-full">
                     Enterprise Info

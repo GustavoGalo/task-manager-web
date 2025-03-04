@@ -39,7 +39,7 @@ function RouteComponent() {
                 Powerful features for powerful productivity
               </h1>
               <p className="max-w-[700px] text-muted-foreground md:text-xl">
-                Discover all the features that make TaskMaster the perfect tool
+                Discover all the features that make TaskManager the perfect tool
                 for managing your tasks and boosting your productivity.
               </p>
             </div>
@@ -174,7 +174,7 @@ function RouteComponent() {
                 </h2>
                 <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl">
                   Join thousands of users who have transformed their task
-                  management with TaskMaster.
+                  management with TaskManager.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -193,7 +193,7 @@ function RouteComponent() {
         <div className="container flex h-24 flex-col items-center justify-between gap-4 md:flex-row">
           <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
             <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-              Built with love by TaskMaster team.
+              Built with love by TaskManager team.
             </p>
           </div>
         </div>
