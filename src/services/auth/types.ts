@@ -12,3 +12,22 @@ export interface SignInApiError {
   error: string,
   statusCode: number
 }
+
+export interface SignUpBody {
+  email: string
+  password: string
+  name: string
+  username: string
+}
+
+export interface SignUpApiResponse {
+  email: string
+  name: string
+  username: string
+}
+
+export interface SignUpApiError {
+  message: string,
+  error: string,
+  statusCode: number
+}
