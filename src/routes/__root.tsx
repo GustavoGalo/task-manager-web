@@ -1,21 +1,25 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
+import {
+  createRootRouteWithContext,
+  Link,
+  Outlet,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "@/components/ui/sonner";
+import { QueryClient } from "@tanstack/react-query";
 
-import "./index.css";
+interface RouterContext {
+  queryClient: QueryClient;
+}
 
-const queryClient = new QueryClient();
-
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
-    <QueryClientProvider client={queryClient}>
+    <>
       <Outlet />
-      <TanStackRouterDevtools />
+      <TanStackRouterDevtools closeButtonProps={undefined} />
       <ReactQueryDevtools initialIsOpen={false} />
       <Toaster />
-    </QueryClientProvider>
+    </>
   ),
   notFoundComponent: () => (
     <div className="flex items-center min-h-screen px-4 py-12 sm:px-6 md:px-8 lg:px-12 xl:px-16 overflow-hidden">

@@ -8,12 +8,15 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as PathlessLayoutRouteImport } from './routes/_pathlessLayout/route'
-import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as PathlessLayoutIndexImport } from './routes/_pathlessLayout/index'
+import { Route as DashboardPathlessLayoutRouteImport } from './routes/dashboard/_pathlessLayout/route'
+import { Route as DashboardPathlessLayoutIndexImport } from './routes/dashboard/_pathlessLayout/index'
 import { Route as PathlessLayoutSignupIndexImport } from './routes/_pathlessLayout/signup/index'
 import { Route as PathlessLayoutPricingIndexImport } from './routes/_pathlessLayout/pricing/index'
 import { Route as PathlessLayoutLoginIndexImport } from './routes/_pathlessLayout/login/index'
@@ -21,16 +24,20 @@ import { Route as PathlessLayoutFeaturesIndexImport } from './routes/_pathlessLa
 import { Route as PathlessLayoutContactIndexImport } from './routes/_pathlessLayout/contact/index'
 import { Route as PathlessLayoutAboutIndexImport } from './routes/_pathlessLayout/about/index'
 
+// Create Virtual Routes
+
+const DashboardImport = createFileRoute('/dashboard')()
+
 // Create/Update Routes
 
-const PathlessLayoutRouteRoute = PathlessLayoutRouteImport.update({
-  id: '/_pathlessLayout',
+const DashboardRoute = DashboardImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRoute,
 } as any)
 
-const DashboardIndexRoute = DashboardIndexImport.update({
-  id: '/dashboard/',
-  path: '/dashboard/',
+const PathlessLayoutRouteRoute = PathlessLayoutRouteImport.update({
+  id: '/_pathlessLayout',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -39,6 +46,19 @@ const PathlessLayoutIndexRoute = PathlessLayoutIndexImport.update({
   path: '/',
   getParentRoute: () => PathlessLayoutRouteRoute,
 } as any)
+
+const DashboardPathlessLayoutRouteRoute =
+  DashboardPathlessLayoutRouteImport.update({
+    id: '/_pathlessLayout',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+
+const DashboardPathlessLayoutIndexRoute =
+  DashboardPathlessLayoutIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => DashboardPathlessLayoutRouteRoute,
+  } as any)
 
 const PathlessLayoutSignupIndexRoute = PathlessLayoutSignupIndexImport.update({
   id: '/signup/',
@@ -92,19 +112,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PathlessLayoutRouteImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/_pathlessLayout': {
+      id: '/dashboard/_pathlessLayout'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardPathlessLayoutRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/_pathlessLayout/': {
       id: '/_pathlessLayout/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof PathlessLayoutIndexImport
       parentRoute: typeof PathlessLayoutRouteImport
-    }
-    '/dashboard/': {
-      id: '/dashboard/'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardIndexImport
-      parentRoute: typeof rootRoute
     }
     '/_pathlessLayout/about/': {
       id: '/_pathlessLayout/about/'
@@ -148,6 +175,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PathlessLayoutSignupIndexImport
       parentRoute: typeof PathlessLayoutRouteImport
     }
+    '/dashboard/_pathlessLayout/': {
+      id: '/dashboard/_pathlessLayout/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardPathlessLayoutIndexImport
+      parentRoute: typeof DashboardPathlessLayoutRouteImport
+    }
   }
 }
 
@@ -176,21 +210,49 @@ const PathlessLayoutRouteRouteChildren: PathlessLayoutRouteRouteChildren = {
 const PathlessLayoutRouteRouteWithChildren =
   PathlessLayoutRouteRoute._addFileChildren(PathlessLayoutRouteRouteChildren)
 
+interface DashboardPathlessLayoutRouteRouteChildren {
+  DashboardPathlessLayoutIndexRoute: typeof DashboardPathlessLayoutIndexRoute
+}
+
+const DashboardPathlessLayoutRouteRouteChildren: DashboardPathlessLayoutRouteRouteChildren =
+  {
+    DashboardPathlessLayoutIndexRoute: DashboardPathlessLayoutIndexRoute,
+  }
+
+const DashboardPathlessLayoutRouteRouteWithChildren =
+  DashboardPathlessLayoutRouteRoute._addFileChildren(
+    DashboardPathlessLayoutRouteRouteChildren,
+  )
+
+interface DashboardRouteChildren {
+  DashboardPathlessLayoutRouteRoute: typeof DashboardPathlessLayoutRouteRouteWithChildren
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardPathlessLayoutRouteRoute:
+    DashboardPathlessLayoutRouteRouteWithChildren,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '': typeof PathlessLayoutRouteRouteWithChildren
+  '/dashboard': typeof DashboardPathlessLayoutRouteRouteWithChildren
   '/': typeof PathlessLayoutIndexRoute
-  '/dashboard': typeof DashboardIndexRoute
   '/about': typeof PathlessLayoutAboutIndexRoute
   '/contact': typeof PathlessLayoutContactIndexRoute
   '/features': typeof PathlessLayoutFeaturesIndexRoute
   '/login': typeof PathlessLayoutLoginIndexRoute
   '/pricing': typeof PathlessLayoutPricingIndexRoute
   '/signup': typeof PathlessLayoutSignupIndexRoute
+  '/dashboard/': typeof DashboardPathlessLayoutIndexRoute
 }
 
 export interface FileRoutesByTo {
+  '/dashboard': typeof DashboardPathlessLayoutIndexRoute
   '/': typeof PathlessLayoutIndexRoute
-  '/dashboard': typeof DashboardIndexRoute
   '/about': typeof PathlessLayoutAboutIndexRoute
   '/contact': typeof PathlessLayoutContactIndexRoute
   '/features': typeof PathlessLayoutFeaturesIndexRoute
@@ -202,32 +264,35 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_pathlessLayout': typeof PathlessLayoutRouteRouteWithChildren
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/dashboard/_pathlessLayout': typeof DashboardPathlessLayoutRouteRouteWithChildren
   '/_pathlessLayout/': typeof PathlessLayoutIndexRoute
-  '/dashboard/': typeof DashboardIndexRoute
   '/_pathlessLayout/about/': typeof PathlessLayoutAboutIndexRoute
   '/_pathlessLayout/contact/': typeof PathlessLayoutContactIndexRoute
   '/_pathlessLayout/features/': typeof PathlessLayoutFeaturesIndexRoute
   '/_pathlessLayout/login/': typeof PathlessLayoutLoginIndexRoute
   '/_pathlessLayout/pricing/': typeof PathlessLayoutPricingIndexRoute
   '/_pathlessLayout/signup/': typeof PathlessLayoutSignupIndexRoute
+  '/dashboard/_pathlessLayout/': typeof DashboardPathlessLayoutIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | ''
-    | '/'
     | '/dashboard'
+    | '/'
     | '/about'
     | '/contact'
     | '/features'
     | '/login'
     | '/pricing'
     | '/signup'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/dashboard'
+    | '/'
     | '/about'
     | '/contact'
     | '/features'
@@ -237,25 +302,27 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_pathlessLayout'
+    | '/dashboard'
+    | '/dashboard/_pathlessLayout'
     | '/_pathlessLayout/'
-    | '/dashboard/'
     | '/_pathlessLayout/about/'
     | '/_pathlessLayout/contact/'
     | '/_pathlessLayout/features/'
     | '/_pathlessLayout/login/'
     | '/_pathlessLayout/pricing/'
     | '/_pathlessLayout/signup/'
+    | '/dashboard/_pathlessLayout/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   PathlessLayoutRouteRoute: typeof PathlessLayoutRouteRouteWithChildren
-  DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   PathlessLayoutRouteRoute: PathlessLayoutRouteRouteWithChildren,
-  DashboardIndexRoute: DashboardIndexRoute,
+  DashboardRoute: DashboardRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -269,7 +336,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/_pathlessLayout",
-        "/dashboard/"
+        "/dashboard"
       ]
     },
     "/_pathlessLayout": {
@@ -284,12 +351,22 @@ export const routeTree = rootRoute
         "/_pathlessLayout/signup/"
       ]
     },
+    "/dashboard": {
+      "filePath": "dashboard/_pathlessLayout",
+      "children": [
+        "/dashboard/_pathlessLayout"
+      ]
+    },
+    "/dashboard/_pathlessLayout": {
+      "filePath": "dashboard/_pathlessLayout/route.tsx",
+      "parent": "/dashboard",
+      "children": [
+        "/dashboard/_pathlessLayout/"
+      ]
+    },
     "/_pathlessLayout/": {
       "filePath": "_pathlessLayout/index.tsx",
       "parent": "/_pathlessLayout"
-    },
-    "/dashboard/": {
-      "filePath": "dashboard/index.tsx"
     },
     "/_pathlessLayout/about/": {
       "filePath": "_pathlessLayout/about/index.tsx",
@@ -314,6 +391,10 @@ export const routeTree = rootRoute
     "/_pathlessLayout/signup/": {
       "filePath": "_pathlessLayout/signup/index.tsx",
       "parent": "/_pathlessLayout"
+    },
+    "/dashboard/_pathlessLayout/": {
+      "filePath": "dashboard/_pathlessLayout/index.tsx",
+      "parent": "/dashboard/_pathlessLayout"
     }
   }
 }
